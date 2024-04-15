@@ -4,5 +4,6 @@ include:
     file: '/templates/gitlab-ci-checkmarx.yml'
 stages:
   - test
+  
 
  
