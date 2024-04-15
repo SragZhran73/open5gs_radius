@@ -1,0 +1,8 @@
+include:
+  - project: 'to-be-continuous/custom/checkmarx'
+    ref: '2.3.0'
+    file: '/templates/gitlab-ci-checkmarx.yml'
+stages:
+  - test
+
+ 
