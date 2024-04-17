@@ -1,9 +1,25 @@
+variables:
+  CHECKMARX_PROJECTNAME: "CxServer/ORANGE/WIN/OINIS/2G6/open5gs"
+  CHECKMARX_FORCE_SCAN: "False"
+
 include:
   - project: 'to-be-continuous/custom/checkmarx'
     ref: '2.3.0'
     file: '/templates/gitlab-ci-checkmarx.yml'
+
+  - project: 'to-be-continuous/gitleaks'
+    ref: '2.5.1'
+    file: '/templates/gitlab-ci-gitleaks.yml'
+
+
 stages:
   - test
-  
+
+checkmarx:
+  timeout: 6h  
+
+
+
+
 
  
