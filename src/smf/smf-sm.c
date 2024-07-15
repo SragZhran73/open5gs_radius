@@ -143,6 +143,8 @@ void smf_state_operational(ogs_fsm_t *s, smf_event_t *e)
                     OGS_SETUP_GTP_NODE(sess, smf_gnode->gnode);
             }
             if (!sess) {
+             smf_metrics_inst_global_inc(SMF_METR_GLOB_CTR_METRIC_CREATESESSIONREQ_FAILED_RESPONSES);
+
                 ogs_error("No Session");
                 ogs_gtp2_send_error_message(gtp_xact, 0,
                         OGS_GTP2_CREATE_SESSION_RESPONSE_TYPE,
