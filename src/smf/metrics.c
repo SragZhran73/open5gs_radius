@@ -125,7 +125,13 @@ smf_metrics_spec_def_t smf_metrics_spec_def_global[_SMF_METR_GLOB_MAX] = {
     .type = OGS_METRICS_METRIC_TYPE_GAUGE,
     .name = "gtp_peers_active",
     .description = "Active GTP peers",
+}, 
+[SMF_METR_GLOB_CTR_METRIC_CREATESESSIONREQ_SUCCESSFUL_RESPONSES] = {
+        .type = OGS_METRICS_METRIC_TYPE_COUNTER,
+        .name = "create session requests successful responses",
+        .description = "count the number of Create session requests successful responses sent by SMF",
 },
+
 };
 int smf_metrics_init_inst_global(void)
 {
