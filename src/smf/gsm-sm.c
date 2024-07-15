@@ -217,7 +217,8 @@ void smf_gsm_state_initial(ogs_fsm_t *s, smf_event_t *e)
             gtp2_cause = smf_s5c_handle_create_session_request(sess,
                             e->gtp_xact,
                             &e->gtp2_message->create_session_request);
-            if (gtp2_cause != OGS_GTP2_CAUSE_REQUEST_ACCEPTED) {
+            if (gtp2_cause != OGS_GTP2_CAUSE_REQUEST_ACCEPTED) {    
+                smf_metrics_inst_global_inc(SMF_METR_GLOB_CTR_METRIC_CREATESESSIONREQ_FAILED_RESPONSES);
                 send_gtp_create_err_msg(sess, e->gtp_xact, gtp2_cause);
                 return;
             }

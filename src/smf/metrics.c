@@ -127,9 +127,14 @@ smf_metrics_spec_def_t smf_metrics_spec_def_global[_SMF_METR_GLOB_MAX] = {
     .description = "Active GTP peers",
 }, 
 [SMF_METR_GLOB_CTR_METRIC_CREATESESSIONREQ_SUCCESSFUL_RESPONSES] = {
-        .type = OGS_METRICS_METRIC_TYPE_COUNTER,
-        .name = "create session requests successful responses",
-        .description = "count the number of Create session requests successful responses sent by SMF",
+    .type = OGS_METRICS_METRIC_TYPE_COUNTER,
+    .name = "create session requests successful responses",
+    .description = "count the number of Create session requests successful responses sent by SMF",
+},
+[SMF_METR_GLOB_CTR_METRIC_CREATESESSIONREQ_FAILED_RESPONSES] = {
+    .type = OGS_METRICS_METRIC_TYPE_COUNTER,
+    .name = "create session requests failed responses",
+    .description = "count the number of Create session requests failed responses sent by SMF",
 },
 
 };
