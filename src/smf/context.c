@@ -300,6 +300,8 @@ int smf_context_parse_config(void)
 
     rv = smf_context_prepare();
     if (rv != OGS_OK) return rv;
+    
+    self.use_radius = false;
 
     ogs_yaml_iter_init(&root_iter, document);
     while (ogs_yaml_iter_next(&root_iter)) {
@@ -529,6 +531,15 @@ int smf_context_parse_config(void)
                             YAML_SCALAR_NODE);
                     self.mtu = atoi(ogs_yaml_iter_value(&smf_iter));
                     ogs_assert(self.mtu);
+                } else if(!strcmp(smf_key, "use_radius")) {
+                    const char* str_use_radius = ogs_yaml_iter_value(&smf_iter);
+                    ogs_assert(str_use_radius);
+                    if(!strcmp(str_use_radius, "true")) {
+                        self.use_radius = true;
+                    } else if (!strcmp(str_use_radius, "true")){
+                        self.use_radius = false;
+                    }
+
                 } else if (!strcmp(smf_key, "p-cscf")) {
                     ogs_yaml_iter_t p_cscf_iter;
                     ogs_yaml_iter_recurse(&smf_iter, &p_cscf_iter);
