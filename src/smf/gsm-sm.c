@@ -223,32 +223,33 @@ void smf_gsm_state_initial(ogs_fsm_t *s, smf_event_t *e)
                 send_gtp_create_err_msg(sess, e->gtp_xact, gtp2_cause);
                 return;
             }
-            if (self->use_radius == false){
-                if(sess->gtp_rat_type == OGS_GTP2_RAT_TYPE_EUTRAN ){
-                     if (send_ccr_init_req_gx_gy(sess, e) == true)
-                     OGS_FSM_TRAN(s, smf_gsm_state_wait_epc_auth_initial);
-                }else if(sess->gtp_rat_type == OGS_GTP2_RAT_TYPE_WLAN ){
-                     smf_s6b_send_aar(sess, e->gtp_xact);
-                     OGS_FSM_TRAN(s, smf_gsm_state_wait_epc_auth_initial);
-                }else{
-                    ogs_error("Unknown RAT Type [%d]", sess->gtp_rat_type);
-                    ogs_assert_if_reached();
-                }
-            }else if (self->use_radius == true){
-                if(sess->gtp_rat_type == OGS_GTP2_RAT_TYPE_WLAN || sess->gtp_rat_type == OGS_GTP2_RAT_TYPE_EUTRAN ){
-                     smf_s6b_send_aar(sess, e->gtp_xact);
-                     OGS_FSM_TRAN(s, smf_gsm_state_wait_epc_auth_initial);
-                }else{
-                    ogs_error("Unknown RAT Type [%d]", sess->gtp_rat_type);
-                    ogs_assert_if_reached();
-                }
+            switch (sess->gtp_rat_type) {
+            case OGS_GTP2_RAT_TYPE_EUTRAN:
+                if(self->use_radius == false){
+                    if (send_ccr_init_req_gx_gy(sess, e) == true)
+                        OGS_FSM_TRAN(s, smf_gsm_state_wait_epc_auth_initial);
 
+                }else if (self->use_radius == true){
+                    smf_s6b_send_aar(sess, e->gtp_xact);
+                    OGS_FSM_TRAN(s, smf_gsm_state_wait_epc_auth_initial); 
+
+                }
+                break;
+            case OGS_GTP2_RAT_TYPE_WLAN:
+                smf_s6b_send_aar(sess, e->gtp_xact);
+                OGS_FSM_TRAN(s, smf_gsm_state_wait_epc_auth_initial);
+                break;
+            default:
+                ogs_error("Unknown RAT Type [%d]", sess->gtp_rat_type);
+                ogs_assert_if_reached();
             }
             break;
+
         default:
             ogs_error("Not implemented(type:%d)", gtp2_message->h.type);
         }
         break;
+
 
     case OGS_EVENT_SBI_SERVER:
         sbi_message = e->h.sbi.message;
