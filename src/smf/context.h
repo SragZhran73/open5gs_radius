@@ -262,6 +262,8 @@ typedef struct smf_sess_s {
     char            *gy_sid;        /* Gx Session ID */
     char            *s6b_sid;       /* S6b Session ID */
 
+    uint32_t        framed_ip_address_uint32; /* from AAA answer */
+    uint32_t        framed_mtu_value  ;       /* from AAA answer */
     OGS_POOL(pf_precedence_pool, uint8_t);
 
 #define CLEAR_QOS_FLOW_ID(__sESS) \

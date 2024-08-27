@@ -50,6 +50,8 @@ ogs_pkbuf_t *smf_s5c_build_create_session_response(
     uint8_t *epco_buf = NULL;
     int16_t epco_len;
 
+    // smf_context_t* self = smf_self();
+
     ogs_debug("[SMF] Create Session Response");
 
     ogs_assert(sess);
@@ -99,6 +101,16 @@ ogs_pkbuf_t *smf_s5c_build_create_session_response(
         len = len;
 
     /* PDN Address Allocation */
+    if(sess->framed_ip_address_uint32 != 0)
+    sess->session.paa.addr = sess->framed_ip_address_uint32;
+    // const char * temp="100.100.100.100";
+    // uint32_t temp2 =  sess->session.paa.addr ;
+    // ogs_ipv4_from_string( &temp2,(char*)temp);
+    // sess->session.paa.addr = temp2 ;
+
+    // ogs_info("****framed ip= %s*****",ogs_ipv4_to_string(sess->session.paa.addr));
+    
+
     rsp->pdn_address_allocation.data = &sess->session.paa;
     if (sess->ipv4 && sess->ipv6)
         rsp->pdn_address_allocation.len = OGS_PAA_IPV4V6_LEN;

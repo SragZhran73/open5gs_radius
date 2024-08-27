@@ -625,7 +625,7 @@ smf:
     ctf:
       enabled: auto
     freeDiameter: @sysconfdir@/freeDiameter/smf.conf
-
+    use_radius: false
 #
 #  <SBI Client>>
 #

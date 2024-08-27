@@ -342,6 +342,7 @@ static void smf_s6b_aaa_cb(void *data, struct msg **msg)
     struct session *session;
     struct avp *avp, *avpch1;
     struct avp_hdr *hdr;
+    
     unsigned long dur;
     int error = 0;
     int new;
@@ -419,6 +420,40 @@ static void smf_s6b_aaa_cb(void *data, struct msg **msg)
         error++;
     }
 
+    if(smf_self()->use_radius){
+
+        /* Value of framed_ip_address *abdallah*/
+        ret = fd_msg_search_avp(*msg, ogs_diam_gx_framed_ip_address, &avp);
+    
+        ogs_assert(ret == 0);
+        if (avp) {
+            ret = fd_msg_avp_hdr(avp, &hdr);
+            ogs_assert(ret == 0);
+            ogs_assert(hdr->avp_value->os.len == sizeof sess->framed_ip_address_uint32);
+            memcpy(&sess->framed_ip_address_uint32 ,hdr->avp_value->os.data, hdr->avp_value->os.len);
+            ogs_debug("From '%.*s' ",
+                    (int)hdr->avp_value->os.len, hdr->avp_value->os.data);
+        } else {
+            ogs_warn("no framed-ip-address ");
+           
+        }
+
+
+        /* Value of framed mtu *abdallah*/
+        ret = fd_msg_search_avp(*msg, ogs_diam_framed_mtu, &avp);
+        ogs_assert(ret == 0);
+        if (avp) {
+            ret = fd_msg_avp_hdr(avp, &hdr);
+            ogs_assert(ret == 0);
+            sess->framed_mtu_value = hdr->avp_value->i32;
+            ogs_debug("From '%.*s' ",
+                    (int)hdr->avp_value->os.len, hdr->avp_value->os.data);
+        } else {
+            ogs_warn("no framed-mtu ");
+            
+        }
+
+    }
     /* Value of Origin-Realm */
     ret = fd_msg_search_avp(*msg, ogs_diam_origin_realm, &avp);
     ogs_assert(ret == 0);

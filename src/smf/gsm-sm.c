@@ -349,12 +349,11 @@ void smf_gsm_state_wait_epc_auth_initial(ogs_fsm_t *s, smf_event_t *e)
 
     sess = e->sess;
     ogs_assert(sess);
-
     switch (e->h.id) {
     case SMF_EVT_GX_MESSAGE:
         gx_message = e->gx_message;
         ogs_assert(gx_message);
-
+        
         switch(gx_message->cmd_code) {
         case OGS_DIAM_GX_CMD_CODE_CREDIT_CONTROL:
             switch(gx_message->cc_request_type) {
