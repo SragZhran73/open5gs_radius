@@ -431,6 +431,12 @@ static void smf_s6b_aaa_cb(void *data, struct msg **msg)
             ogs_assert(ret == 0);
             ogs_assert(hdr->avp_value->os.len == sizeof sess->framed_ip_address_uint32);
             memcpy(&sess->framed_ip_address_uint32 ,hdr->avp_value->os.data, hdr->avp_value->os.len);
+
+            if (sess->ipv4 && sess->ipv6)
+                sess->session.paa.both.addr =sess->framed_ip_address_uint32;
+            else if (sess->ipv4)
+                sess->session.paa.addr =sess->framed_ip_address_uint32; 
+
             ogs_debug("From '%.*s' ",
                     (int)hdr->avp_value->os.len, hdr->avp_value->os.data);
         } else {

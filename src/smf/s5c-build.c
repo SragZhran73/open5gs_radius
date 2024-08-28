@@ -101,14 +101,14 @@ ogs_pkbuf_t *smf_s5c_build_create_session_response(
         len = len;
 
     /* PDN Address Allocation */
-    if(smf_self()->use_radius == true){
+    // if(smf_self()->use_radius == true){
+
+    //     if (sess->ipv4 && sess->ipv6)
+    //         sess->session.paa.both.addr =sess->framed_ip_address_uint32;
+    //     else if (sess->ipv4)
+    //         sess->session.paa.addr =sess->framed_ip_address_uint32; 
         
-        if (sess->ipv4 && sess->ipv6)
-            sess->session.paa.both.addr =sess->framed_ip_address_uint32;
-        else if (sess->ipv4)
-            sess->session.paa.addr =sess->framed_ip_address_uint32; 
-        
-    }
+    // }
 
     rsp->pdn_address_allocation.data = &sess->session.paa;
     if (sess->ipv4 && sess->ipv6)

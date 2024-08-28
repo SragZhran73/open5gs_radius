@@ -153,8 +153,8 @@ uint32_t smf_gx_handle_cca_initial_request(
 
     /* Set UE IP Address to the Default DL PDR */ /*srag lw shaghala ghyrr el ip men awl ma bet3ml
                                                     parse lel msg men el AAA server*/
-    if(smf_self()->use_radius == true)
-    sess->session.paa.addr= sess->framed_ip_address_uint32;
+    // if(smf_self()->use_radius == true)
+    // sess->session.paa.addr= sess->framed_ip_address_uint32;
 
     ogs_assert(OGS_OK ==
         ogs_pfcp_paa_to_ue_ip_addr(&sess->session.paa,
