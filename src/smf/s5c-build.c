@@ -101,21 +101,14 @@ ogs_pkbuf_t *smf_s5c_build_create_session_response(
         len = len;
 
     /* PDN Address Allocation */
-    if(sess->framed_ip_address_uint32 != 0)
-    sess->session.paa.addr = sess->framed_ip_address_uint32;
-    // const char * temp="100.100.100.100";
-    // uint32_t temp2 =  sess->session.paa.addr ;
-    // ogs_ipv4_from_string( &temp2,(char*)temp);
-    // sess->session.paa.addr = temp2 ;
-
-    // ogs_info("****framed ip= %s*****",ogs_ipv4_to_string(sess->session.paa.addr));
-    
+    if(smf_self()->use_radius == true)
+    sess->session.paa.both.addr =sess->framed_ip_address_uint32;
 
     rsp->pdn_address_allocation.data = &sess->session.paa;
     if (sess->ipv4 && sess->ipv6)
         rsp->pdn_address_allocation.len = OGS_PAA_IPV4V6_LEN;
     else if (sess->ipv4)
-        rsp->pdn_address_allocation.len = OGS_PAA_IPV4_LEN;
+        rsp->pdn_address_allocation.len = OGS_PAA_IPV4_LEN;  
     else if (sess->ipv6)
         rsp->pdn_address_allocation.len = OGS_PAA_IPV6_LEN;
     else
