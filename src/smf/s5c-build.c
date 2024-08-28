@@ -101,8 +101,14 @@ ogs_pkbuf_t *smf_s5c_build_create_session_response(
         len = len;
 
     /* PDN Address Allocation */
-    if(smf_self()->use_radius == true)
-    sess->session.paa.both.addr =sess->framed_ip_address_uint32;
+    if(smf_self()->use_radius == true){
+        
+        if (sess->ipv4 && sess->ipv6)
+            sess->session.paa.both.addr =sess->framed_ip_address_uint32;
+        else if (sess->ipv4)
+            sess->session.paa.addr =sess->framed_ip_address_uint32; 
+        
+    }
 
     rsp->pdn_address_allocation.data = &sess->session.paa;
     if (sess->ipv4 && sess->ipv6)
@@ -155,6 +161,7 @@ ogs_pkbuf_t *smf_s5c_build_create_session_response(
             sess->gtp.ue_epco.len && sess->gtp.ue_epco.data) {
         epco_buf = ogs_calloc(OGS_MAX_EPCO_LEN, sizeof(uint8_t));
         ogs_assert(epco_buf);
+        ogs_info("******EPCO********************");
         epco_len = smf_pco_build(
                 epco_buf, sess->gtp.ue_epco.data, sess->gtp.ue_epco.len);
         ogs_assert(epco_len > 0);

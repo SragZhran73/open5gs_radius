@@ -445,10 +445,11 @@ static void smf_s6b_aaa_cb(void *data, struct msg **msg)
         if (avp) {
             ret = fd_msg_avp_hdr(avp, &hdr);
             ogs_assert(ret == 0);
-            sess->framed_mtu_value = hdr->avp_value->i32;
+            smf_self()->framed_mtu = hdr->avp_value->i32;
             ogs_debug("From '%.*s' ",
                     (int)hdr->avp_value->os.len, hdr->avp_value->os.data);
         } else {
+            smf_self()->framed_mtu =0;
             ogs_warn("no framed-mtu ");
             
         }

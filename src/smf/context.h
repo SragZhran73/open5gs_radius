@@ -92,6 +92,7 @@ typedef struct smf_context_s {
     ogs_hash_t      *n1n2message_hash; /* hash table (N1N2Message Location) */
 
     uint16_t        mtu;            /* MTU to advertise in PCO */
+    uint16_t        framed_mtu;      /*AAA server*/
     bool use_upg;
     const char* sgi_nwi;
     bool use_radius ;
@@ -263,7 +264,7 @@ typedef struct smf_sess_s {
     char            *s6b_sid;       /* S6b Session ID */
 
     uint32_t        framed_ip_address_uint32; /* from AAA answer */
-    uint32_t        framed_mtu_value  ;       /* from AAA answer */
+    // uint32_t        framed_mtu_value  ;       /* from AAA answer */
     OGS_POOL(pf_precedence_pool, uint8_t);
 
 #define CLEAR_QOS_FLOW_ID(__sESS) \
