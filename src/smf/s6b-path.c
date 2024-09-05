@@ -422,7 +422,7 @@ static void smf_s6b_aaa_cb(void *data, struct msg **msg)
 
     if(smf_self()->use_radius){
 
-        /* Value of framed_ip_address *abdallah*/
+        /* Value of framed_ip_address *srag*/
         ret = fd_msg_search_avp(*msg, ogs_diam_gx_framed_ip_address, &avp);
     
         ogs_assert(ret == 0);
@@ -455,10 +455,11 @@ static void smf_s6b_aaa_cb(void *data, struct msg **msg)
             ogs_debug("From '%.*s' ",
                     (int)hdr->avp_value->os.len, hdr->avp_value->os.data);
         } else {
-            smf_self()->framed_mtu =0;
+            smf_self()->framed_mtu = 0;
             ogs_warn("no framed-mtu ");
             
         }
+
 
     }
     /* Value of Origin-Realm */

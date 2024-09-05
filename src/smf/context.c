@@ -3021,13 +3021,23 @@ int smf_pco_build(uint8_t *pco_buf, uint8_t *buffer, int length)
             }
             break;
         case OGS_PCO_ID_IPV4_LINK_MTU_REQUEST:
-            ogs_info("*****context*mtu=%d**",smf_self()->framed_mtu);
-            if (smf_self()->mtu) {
-                mtu = htons(smf_self()->mtu);
+            if(smf_self()->use_radius == true && smf_self()->framed_mtu){
+                if (smf_self()->framed_mtu) {
+                mtu = htons(smf_self()->framed_mtu);
                 smf.ids[smf.num_of_id].id = ue.ids[i].id;
                 smf.ids[smf.num_of_id].len = sizeof(uint16_t);
                 smf.ids[smf.num_of_id].data = &mtu;
                 smf.num_of_id++;
+                }
+
+            } else {
+                if (smf_self()->mtu) {
+                    mtu = htons(smf_self()->mtu);
+                    smf.ids[smf.num_of_id].id = ue.ids[i].id;
+                    smf.ids[smf.num_of_id].len = sizeof(uint16_t);
+                    smf.ids[smf.num_of_id].data = &mtu;
+                    smf.num_of_id++;
+                }
             }
             break;
         case OGS_PCO_ID_IP_ADDRESS_ALLOCATION_VIA_NAS_SIGNALLING:
