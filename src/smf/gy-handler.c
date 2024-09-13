@@ -138,7 +138,31 @@ uint32_t smf_gy_handle_cca_initial_request(
     if (!bearer->urr)
         bearer->urr = ogs_pfcp_urr_add(&sess->pfcp);
     ogs_assert(bearer->urr);
+    /************srag&abdallah*********/
+    if(smf_self()->use_radius == true )
+    {
+       if (!bearer->qer)   
+           bearer->qer = ogs_pfcp_qer_add(&sess->pfcp);
+       ogs_assert(bearer->urr);
+       bearer->qer->mbr.uplink = 200000;
+       bearer->qer->mbr.downlink = 20000;
 
+       ogs_assert(sess->pfcp_node);
+       if (sess->pfcp_node->up_function_features.ftup){
+           bearer->ul_pdr->f_teid.ipv4 = 1;
+           bearer->ul_pdr->f_teid.ipv6 = 1;
+           bearer->ul_pdr->f_teid.ch = 1;
+           bearer->ul_pdr->f_teid.chid = 1;
+           bearer->ul_pdr->f_teid.choose_id = OGS_PFCP_DEFAULT_CHOOSE_ID;
+           bearer->ul_pdr->f_teid_len = 2;
+
+       }
+           if (bearer->qer) {
+            ogs_pfcp_pdr_associate_qer(bearer->ul_pdr, bearer->qer);
+            ogs_pfcp_pdr_associate_qer(bearer->dl_pdr, bearer->qer);
+       }
+    }
+    /************srag&abdallah*********/
     /* Configure based on what we received from OCS: */
     urr_update_time(sess, bearer->urr, gy_message);
     urr_update_volume(sess, bearer->urr, gy_message);
@@ -146,6 +170,8 @@ uint32_t smf_gy_handle_cca_initial_request(
     /* Associate acconting URR each direction PDR: */
     ogs_pfcp_pdr_associate_urr(bearer->ul_pdr, bearer->urr);
     ogs_pfcp_pdr_associate_urr(bearer->dl_pdr, bearer->urr);
+
+
     return ER_DIAMETER_SUCCESS;
 }
 

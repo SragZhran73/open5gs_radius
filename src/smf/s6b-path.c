@@ -476,9 +476,13 @@ static void smf_s6b_aaa_cb(void *data, struct msg **msg)
     }
 
     if (!error) {
-        smf_gx_send_ccr(sess, xact,
-            OGS_DIAM_GX_CC_REQUEST_TYPE_INITIAL_REQUEST);
+        if(smf_self()->use_radius == true )
+            smf_gy_send_ccr(sess, xact,OGS_DIAM_GX_CC_REQUEST_TYPE_INITIAL_REQUEST);
+        else
+            smf_gx_send_ccr(sess, xact, OGS_DIAM_GX_CC_REQUEST_TYPE_INITIAL_REQUEST);
+
     }
+    
 
     /* Free the message */
     ogs_assert(pthread_mutex_lock(&ogs_diam_logger_self()->stats_lock) == 0);

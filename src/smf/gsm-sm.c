@@ -169,7 +169,6 @@ void smf_gsm_state_initial(ogs_fsm_t *s, smf_event_t *e)
 
     ogs_sbi_stream_t *stream = NULL;
     ogs_sbi_message_t *sbi_message = NULL;
-
     ogs_assert(s);
     ogs_assert(e);
 
