@@ -483,7 +483,7 @@ static void smf_s6b_aaa_cb(void *data, struct msg **msg)
 
     }
     
-
+    ogs_info("****smf_s6b_aaa_cb***log 2********");
     /* Free the message */
     ogs_assert(pthread_mutex_lock(&ogs_diam_logger_self()->stats_lock) == 0);
     dur = ((ts.tv_sec - sess_data->ts.tv_sec) * 1000000) +
@@ -524,6 +524,8 @@ static void smf_s6b_aaa_cb(void *data, struct msg **msg)
     ogs_assert(ret == 0);
     ogs_assert(sess_data == NULL);
 
+    // smf_epc_pfcp_send_session_establishment_request(sess, xact, 0);
+   
     ret = fd_msg_free(*msg);
     ogs_assert(ret == 0);
     *msg = NULL;

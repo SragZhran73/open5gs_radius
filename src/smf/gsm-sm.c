@@ -591,6 +591,7 @@ void smf_gsm_state_wait_pfcp_establishment(ogs_fsm_t *s, smf_event_t *e)
 
         switch (pfcp_message->h.type) {
         case OGS_PFCP_SESSION_ESTABLISHMENT_RESPONSE_TYPE:
+        ogs_info("ana bagy hena !!!");
             if (pfcp_xact->epc) {
                 ogs_gtp_xact_t *gtp_xact = pfcp_xact->assoc_xact;
                 ogs_assert(gtp_xact);
@@ -607,6 +608,7 @@ void smf_gsm_state_wait_pfcp_establishment(ogs_fsm_t *s, smf_event_t *e)
                 }
 
                 gtp_xact = pfcp_xact->assoc_xact;
+                
                 if (gtp_xact) {
                     switch (gtp_xact->gtp_version) {
                     case 1:

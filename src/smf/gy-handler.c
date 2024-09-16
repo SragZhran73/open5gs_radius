@@ -161,6 +161,14 @@ uint32_t smf_gy_handle_cca_initial_request(
             ogs_pfcp_pdr_associate_qer(bearer->ul_pdr, bearer->qer);
             ogs_pfcp_pdr_associate_qer(bearer->dl_pdr, bearer->qer);
        }
+
+
+        ogs_assert(OGS_OK ==
+            ogs_pfcp_paa_to_ue_ip_addr(&sess->session.paa,
+            &bearer->ul_pdr->ue_ip_addr, &bearer->ul_pdr->ue_ip_addr_len));
+        ogs_assert(OGS_OK ==
+            ogs_pfcp_paa_to_ue_ip_addr(&sess->session.paa,
+            &bearer->dl_pdr->ue_ip_addr, &bearer->dl_pdr->ue_ip_addr_len));
     }
     /************srag&abdallah*********/
     /* Configure based on what we received from OCS: */
