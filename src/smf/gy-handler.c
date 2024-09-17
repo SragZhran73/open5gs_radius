@@ -123,7 +123,7 @@ uint32_t smf_gy_handle_cca_initial_request(
     ogs_assert(sess);
     ogs_assert(gy_message);
     ogs_assert(gtp_xact);
-
+    ogs_info("###ana 2 ##");
     ogs_debug("[Gy CCA Initial]");
     ogs_debug("    SGW_S5C_TEID[0x%x] PGW_S5C_TEID[0x%x]",
             sess->sgw_s5c_teid, sess->smf_n4_teid);
@@ -138,14 +138,50 @@ uint32_t smf_gy_handle_cca_initial_request(
     if (!bearer->urr)
         bearer->urr = ogs_pfcp_urr_add(&sess->pfcp);
     ogs_assert(bearer->urr);
+    
     /************srag&abdallah*********/
     if(smf_self()->use_radius == true )
     {
+        // ogs_list_add(&sess->pfcp.far_list,&bearer->dl_pdr->to_create_node);
+        
+
        if (!bearer->qer)   
            bearer->qer = ogs_pfcp_qer_add(&sess->pfcp);
        ogs_assert(bearer->urr);
        bearer->qer->mbr.uplink = 200000;
        bearer->qer->mbr.downlink = 20000;
+
+
+    //FAR
+    ogs_pfcp_far_t *dl_far = NULL;
+    ogs_pfcp_far_t *up2cp_far = NULL;
+    
+    smf_sess_create_cp_up_data_forwarding(sess);
+    dl_far = bearer->dl_far;
+    ogs_assert(dl_far);
+    up2cp_far = sess->up2cp_far;
+    ogs_assert(up2cp_far);
+
+    dl_far->apply_action = OGS_PFCP_APPLY_ACTION_FORW;
+
+    /* Set Outer Header Creation to the Default DL FAR */
+    ogs_assert(OGS_OK ==
+        ogs_pfcp_ip_to_outer_header_creation(
+            &bearer->sgw_s5u_ip,
+            &dl_far->outer_header_creation,
+            &dl_far->outer_header_creation_len));
+    dl_far->outer_header_creation.teid = bearer->sgw_s5u_teid;
+
+    // ogs_pfcp_far_t *new_far = NULL;
+    
+    // new_far= ogs_pfcp_far_add(&sess->pfcp);
+    // ogs_assert(new_far);
+    // new_far->apply_action= OGS_PFCP_APPLY_ACTION_FORW;
+  
+/*FAR END*/
+
+    // ogs_pfcp_pdr_associate_far(bearer->dl_pdr,new_far);
+    // ogs_pfcp_pdr_associate_far(bearer->ul_pdr,new_far);
 
        ogs_assert(sess->pfcp_node);
        if (sess->pfcp_node->up_function_features.ftup){
