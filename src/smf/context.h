@@ -96,6 +96,7 @@ typedef struct smf_context_s {
     bool use_upg;
     const char* sgi_nwi;
     bool use_radius ;
+    bool set_ip_from_rs ; //set ip from radius server, can be true only if use_radius is true
 
     struct  {
         const char *integrity_protection_indication;

@@ -536,9 +536,14 @@ int smf_context_parse_config(void)
                     ogs_assert(str_use_radius);
                     if(!strcmp(str_use_radius, "true")) {
                         self.use_radius = true;
-                    } else if (!strcmp(str_use_radius, "true")){
-                        self.use_radius = false;
-                    }
+                    } 
+
+                } else if(!strcmp(smf_key, "set_ip_from_rs")) {
+                    const char* str_ip_from_rs = ogs_yaml_iter_value(&smf_iter);
+                    ogs_assert(str_ip_from_rs);
+                    if(!strcmp(str_ip_from_rs, "true")) {
+                        self.set_ip_from_rs = true;
+                    } 
 
                 } else if (!strcmp(smf_key, "p-cscf")) {
                     ogs_yaml_iter_t p_cscf_iter;
