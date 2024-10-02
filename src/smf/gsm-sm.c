@@ -229,9 +229,14 @@ void smf_gsm_state_initial(ogs_fsm_t *s, smf_event_t *e)
                         OGS_FSM_TRAN(s, smf_gsm_state_wait_epc_auth_initial);
 
                 }else if (self->use_radius == true){
-                    smf_s6b_send_aar(sess, e->gtp_xact);
-                    OGS_FSM_TRAN(s, smf_gsm_state_wait_epc_auth_initial); 
-
+                    if(self->enable_double_auth){
+                        smf_s6b_send_aar(sess, e->gtp_xact);
+                        OGS_FSM_TRAN(s, smf_gsm_state_wait_epc_auth_initial);
+                    } else  {
+                        OGS_FSM_TRAN(s, smf_gsm_state_wait_pfcp_establishment);
+                        ogs_assert(OGS_OK ==
+                        smf_epc_pfcp_send_session_establishment_request(sess, e->gtp_xact, 0));
+                    }
                 }
                 break;
             case OGS_GTP2_RAT_TYPE_WLAN:

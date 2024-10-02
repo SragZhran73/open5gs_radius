@@ -97,7 +97,7 @@ typedef struct smf_context_s {
     const char* sgi_nwi;
     bool use_radius ;
     bool set_ip_from_rs ; //set ip from radius server, can be true only if use_radius is true
-
+    bool enable_double_auth ; // only possible if use_radius is true
     struct  {
         const char *integrity_protection_indication;
         const char *confidentiality_protection_indication;

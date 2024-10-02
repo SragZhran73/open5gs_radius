@@ -545,6 +545,13 @@ int smf_context_parse_config(void)
                         self.set_ip_from_rs = true;
                     } 
 
+                } else if(!strcmp(smf_key, "enable_double_auth")) {
+                    const char* enable_double_auth = ogs_yaml_iter_value(&smf_iter);
+                    ogs_assert(enable_double_auth);
+                    if(!strcmp(enable_double_auth, "true")) {
+                        self.enable_double_auth = true;
+                    } 
+
                 } else if (!strcmp(smf_key, "p-cscf")) {
                     ogs_yaml_iter_t p_cscf_iter;
                     ogs_yaml_iter_recurse(&smf_iter, &p_cscf_iter);
